@@ -1,46 +1,85 @@
 ---
+// Header.astro
 import { Image } from 'astro:assets';
-// تأكد من وضع شعار Livraison Plus في مجلد assets
-import logo from '../assets/logo-livraison-plus.svg'; 
+// استبدل المسار بشعارك الحقيقي إذا كان موجوداً
+// import logo from '../assets/logo.svg'; 
 
 interface Props {
-    variant?: 'header' | 'footer' | 'dark';
+  variant?: 'header' | 'footer';
 }
 
 const { variant = 'header' } = Astro.props;
-
-// تحديد الألوان بناءً على مكان الشعار (Header أو Footer)
-const getLogoClass = () => {
-    switch (variant) {
-        case 'header':
-            // اللون الأزرق الأساسي للموقع مع تأثير عند تمرير الفأرة
-            return 'text-blue-600 hover:text-blue-500';
-        case 'footer':
-            // لون أبيض أو رمادي فاتح للتذييل
-            return 'text-gray-800 hover:text-blue-600';
-        case 'dark':
-            return 'text-white hover:text-blue-400';
-        default:
-            return 'text-blue-600 hover:text-blue-500';
-    }
-};
 ---
 
-<a href="/" class:list={['logo flex items-center gap-2 uppercase transition-all duration-300', getLogoClass()]}>
-    {/* الشعار الرسومي */}
-    <Image 
-        src={logo} 
-        alt="Livraison Plus Marrakech" 
-        class="h-8 w-auto object-contain" 
-    />
-    
-    {/* النص البرمجي للشعار */}
-    <div class="flex flex-col leading-none">
-        <span class="font-black text-xl tracking-tighter">
-            LIVRAISON <span class="text-blue-400">PLUS</span>
+<nav class="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm px-4 py-3 md:px-12 flex items-center justify-between">
+  <a href="/" class="flex items-center gap-2 group transition-transform hover:scale-105">
+    <div class="text-blue-600 flex items-center gap-1.5">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+      </svg>
+      <div class="flex flex-col leading-none">
+        <span class="font-black text-xl tracking-tighter text-blue-600">
+          LIVRAISON <span class="text-blue-400">PLUS</span>
         </span>
-        <span class="text-[10px] font-medium tracking-[0.2em] text-gray-400">
-            MARRAKECH
-        </span>
+      </div>
     </div>
-</a>
+  </a>
+
+  <div class="hidden md:flex items-center gap-8 text-sm font-bold text-gray-600">
+    <a href="#about" class="hover:text-blue-600 transition-colors">À PROPOS</a>
+    <a href="#contact" class="hover:text-blue-600 transition-colors">NOUS CONTACTER</a>
+    <a href="#hours" class="hover:text-blue-600 transition-colors">HORAIRES</a>
+    
+    <div class="flex items-center gap-4 border-l pl-6 border-gray-200">
+      <span class="text-gray-400 font-medium">+212 674-007161</span>
+      <a href="https://wa.me/212674007161" class="bg-[#25D366] text-white px-5 py-2 rounded-full text-xs font-black hover:bg-[#128C7E] transition-all shadow-md">
+        WHATSAPP
+      </a>
+    </div>
+  </div>
+
+  <button id="menu-toggle" class="md:hidden p-2 text-gray-600">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+</nav>
+
+<div id="mobile-menu" class="hidden fixed inset-0 z-40 bg-white pt-20 px-6">
+  <div class="flex flex-col gap-6 text-center text-lg font-bold text-gray-800">
+    <a href="#about" class="mobile-link">À PROPOS</a>
+    <a href="#contact" class="mobile-link">NOUS CONTACTER</a>
+    <a href="#hours" class="mobile-link">HORAIRES</a>
+    <hr />
+    <a href="tel:+212674007161" class="text-blue-600">+212 674-007161</a>
+  </div>
+</div>
+
+<script>
+  // كود تشغيل القائمة في الجوال بدون الحاجة لـ React
+  const btn = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const links = document.querySelectorAll('.mobile-link');
+
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      menu?.classList.add('hidden');
+    });
+  });
+</script>
+
+<style>
+  /* ضمان ظهور الشعار بشكل صحيح */
+  .logo span {
+    display: inline-block;
+  }
+</style>
