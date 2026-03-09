@@ -1,33 +1,46 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/astro.svg';
+// تأكد من وضع شعار Livraison Plus في مجلد assets
+import logo from '../assets/logo-livraison-plus.svg'; 
+
 interface Props {
     variant?: 'header' | 'footer' | 'dark';
 }
 
 const { variant = 'header' } = Astro.props;
 
-// Determine the appropriate CSS class based on the variant
+// تحديد الألوان بناءً على مكان الشعار (Header أو Footer)
 const getLogoClass = () => {
     switch (variant) {
         case 'header':
-            return 'text-header-logo hover:text-primary';
+            // اللون الأزرق الأساسي للموقع مع تأثير عند تمرير الفأرة
+            return 'text-blue-600 hover:text-blue-500';
         case 'footer':
-            return 'text-footer-logo hover:text-primary';
+            // لون أبيض أو رمادي فاتح للتذييل
+            return 'text-gray-800 hover:text-blue-600';
         case 'dark':
-            return 'text-body-base hover:text-primary';
+            return 'text-white hover:text-blue-400';
         default:
-            return 'text-body-base hover:text-primary';
+            return 'text-blue-600 hover:text-blue-500';
     }
 };
 ---
 
-<a href="/" class:list={['logo uppercase font-logo transition-colors duration-200 font-light', getLogoClass()]}>
-    {
-        // If image is the only element in this link, its alt attribute should be a textual representation.
-        // Please, use something like your company name or “Home”, not “logo.”
-        // If there is link text, leave alt empty.
-    }
-    <Image src={logo} alt="" class="hidden" />
-    <span class="font-bold">Titan</span> Core
+<a href="/" class:list={['logo flex items-center gap-2 uppercase transition-all duration-300', getLogoClass()]}>
+    {/* الشعار الرسومي */}
+    <Image 
+        src={logo} 
+        alt="Livraison Plus Marrakech" 
+        class="h-8 w-auto object-contain" 
+    />
+    
+    {/* النص البرمجي للشعار */}
+    <div class="flex flex-col leading-none">
+        <span class="font-black text-xl tracking-tighter">
+            LIVRAISON <span class="text-blue-400">PLUS</span>
+        </span>
+        <span class="text-[10px] font-medium tracking-[0.2em] text-gray-400">
+            MARRAKECH
+        </span>
+    </div>
 </a>
